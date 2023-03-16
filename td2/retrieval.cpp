@@ -45,8 +45,11 @@ void pure_print(point p, int dim) {
 double dist(point p, point q, int dim) {
     // Exercise 1
     double distance = 0.0;
+
+    for(int i = 0; i < dim; i++) distance += (q[i] - p[i]) * (q[i] - p[i]);
+
     // TODO
-    return distance;
+    return std::sqrt(distance);
 }
 
 /*****************************************************
@@ -65,8 +68,15 @@ double dist(point p, point q, int dim) {
 int linear_scan(point q, int dim, point* P, int n) {
     // Exercise 2
     int idx = -1;  // It will contain the index of the closest point
+    double smallest_distance = dist(q, *P, dim); idx = 0;
 
-    // TODO
+    for(int i = 1; i < n; i++){
+        double new_distance = dist(q, P[i], dim);
+        if(new_distance < smallest_distance){
+            smallest_distance = new_distance; 
+            idx = i;
+        }
+    }
 
     return idx;
 }
@@ -74,6 +84,7 @@ int linear_scan(point q, int dim, point* P, int n) {
 /*****************************************************
  * Exercise 3: compute_median                        *
  *****************************************************/
+
 /**
  * This function computes the median of all the c coordinates 
  * of an subarray P of n points that is P[start] .. P[end - 1]
@@ -87,7 +98,12 @@ double compute_median(point* P, int start, int end, int c) {
     // Exercise 3
     double median = 0.0;
 
-    // TODO
+    double coordinate_c [end - start];
+    for(int i = start; i < end; i++) coordinate_c[i - start] = P[i][c];     
+
+    std::sort(coordinate_c, coordinate_c + (end - start));
+
+    median = coordinate_c[(end - start)/2];
 
     return median;
 }
@@ -109,8 +125,23 @@ int partition(point* P, int start, int end, int c) {
     double m = compute_median(P, start, end, c);
     int idx = -1;  // this is where we store the index of the median
 
-    // TODO
+    int median_index = -1; 
+    idx = (start + end) / 2; end--;
 
+    while(start <= end){
+        if (P[start][c] == m) {
+            median_index = start;
+            start++;
+        }
+        else if(P[start][c] > m) {
+            std::swap(P[start], P[end]);
+            end--;
+        } 
+        else start++; 
+    }
+
+    std::swap(P[median_index], P[idx]);
+    
     return idx;
 }
 
@@ -125,11 +156,13 @@ int partition(point* P, int start, int end, int c) {
  */
 node* create_node(int _idx) {
   // Exercise 5
-  
-  // TODO
-    
-    // Do not forget to replace this return by a correct one!
-    return new node;
+
+    node* new_node_ptr = new node;
+    new_node_ptr->idx = _idx; 
+    new_node_ptr->left = NULL;
+    new_node_ptr->right = NULL;
+
+    return new_node_ptr; //new_node_ptr; //new_node;
 }
 
 /**
@@ -140,11 +173,17 @@ node* create_node(int _idx) {
  */
 node* create_node(int _c, double _m, int _idx,
                   node* _left, node* _right) {  
-  // Exercise 5
-  // TODO
+    // Exercise 5
 
-    // Do not forget to replace this return by a correct one!
-    return new node;
+    node* new_node_ptr = new node;
+    
+    new_node_ptr->c = _c;
+    new_node_ptr->m = _m;
+    new_node_ptr->idx = _idx;
+    new_node_ptr->left = _left;
+    new_node_ptr->right = _right;
+
+    return new_node_ptr;
 }
 
 node* build(point* P, int start, int end, int c, int dim) {
@@ -191,7 +230,15 @@ node* build(point* P, int start, int end, int c, int dim) {
  */
 void defeatist_search(node* n, point q, int dim, point* P, double& res, int& nnp) {
     // Exercise 6
-    // TODO
+    if (n != NULL) {
+        double new_res = std::min(res, dist(q, P[n->idx], dim));
+        if (res != new_res) {
+            res = new_res;
+            nnp = n->idx;
+        }
+        if (n->left != NULL || n->right != NULL)  // internal node
+            defeatist_search ( (q[n->c] <= n->m) ? n->left : n->right, q, dim, P, res, nnp);
+    }
 }
 
 /*****************************************************
@@ -209,6 +256,20 @@ void defeatist_search(node* n, point q, int dim, point* P, double& res, int& nnp
  */
 void backtracking_search(node* n, point q, int dim, point* P, double& res, int& nnp) {
     // Exercise 7
-    // TODO
+
+    double new_res = dist(q, P[n->idx], dim);
+    if (new_res <= res) {
+        res = new_res;
+        nnp = n->idx;
+    }   
+
+    if(n->left != NULL && q[n->c] - res <= n->m){
+        backtracking_search (n->left, q, dim, P, res, nnp);
+    }  
+
+    if(n->right != NULL && q[n->c] + res >= n->m){
+        backtracking_search (n->right, q, dim, P, res, nnp);
+    }   
+    
 }
 
