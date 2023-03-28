@@ -16,14 +16,15 @@ graph::graph(const cloud &_c) {
     // TODO: Exercise 2
     
     edges = new edge*[size];
-    std::string node_names[size];
+    node_names = new std::string[n];
+
+    int iterador = 0;
 
     for(int i = 0; i < n; i++){
-        for(int j = 0; j < i; j++){
+        node_names[i] = _c.get_point(i).name;
+        for(int j = i+1; j < n; j++){
             double length = _c.get_point(i).dist(_c.get_point(j));
-            edge new_edge(i, j, length);
-            edges[i*(i-1)/2 + j] = &new_edge;
-            node_names[i*(i-1)/2 + j] = "?";
+            edges[iterador++] =  new edge(i, j, length);
         }
     }
 
@@ -37,39 +38,34 @@ graph::graph(long _n, const std::string _node_names[], double **dist_matrix) {
     size = n * (n - 1) / 2;
     // TODO: Exercise 2
     edges = new edge*[size];
-    std::string node_names[size];
+    node_names = new std::string[n];
 
-    for(int i = 0; i < size; i++) node_names[i] = _node_names[i];
+    for(int i = 0; i < n; i++) node_names[i] = _node_names[i];
+
+    int iterator = 0;
 
     for(int i = 0; i < n; i++){
-        for(int j = 0; j < i; j++){
-            edge new_edge(i,j,dist_matrix[i][j]);
-            *edges[i*(i-1)/2] = new_edge;
+        for(int j = i+1; j < n; j++){
+            edges[iterator++] = new edge(i, j, dist_matrix[i][j]);
         }
     }
 
     std::sort(edges, edges + size, edge::compare);
 
     iterator_pos = 0;
-
 }
 
 graph::~graph() {
-    // TODO: Exercise 2
+    // TODO: Exercise 2 (OK)
 
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < i; j++){
-            delete edges[i*n + j];
-        }
-    }
-
+    for(int i = 0; i < size; i++) delete edges[i];
+    
     delete[] edges;
     delete[] node_names;
 }
 
 long graph::get_num_edges() const {
-    // TODO: Exercise 2
-
+    // TODO: Exercise 2 (OK)
     return size;
 }
 
@@ -92,12 +88,13 @@ long graph::get_num_nodes() const {
 
 void graph::start_iteration() {
     // TODO: Exercise 3
+    iterator_pos = 0;
 }
 
 edge *graph::get_next() {
     // TODO: Exercise 3
-
-    return NULL;
+    if (iterator_pos == size) return NULL;
+    return edges[iterator_pos++];
 }
 
 graph *graph::load_matrix(std::ifstream &is) {
