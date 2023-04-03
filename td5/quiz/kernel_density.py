@@ -7,6 +7,7 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import time
 
 
 def main():
@@ -89,6 +90,7 @@ Examples
                 j += 1
         axes[0, 5].set_title("Selection from the input data")
         axes[6, 5].set_title('"New" digits drawn from the kernel density model')
+        # kde.score_samples([250,850])    
 
     else:
         # Draw scatter plot on top of density estimation
@@ -109,8 +111,12 @@ Examples
         cfset = ax[1].contourf(xx, yy, f, cmap='Blues')
     # Save plot
     plt.savefig(f'{os.path.splitext(os.path.basename(sys.argv[1]))[0]}_{sys.argv[2]}_{sys.argv[3].replace(".", "_")}.png')
-
+    print(f"Estimated score: {np.e ** kde.score_samples([(250,850)])}") 
+    # print(f"Estimated score: {kde.score_samples([(250,1500)])}") 
 
 if __name__ == '__main__':
+    tic = time.perf_counter()
     main()
+    tac = time.perf_counter()
+    print(tac - tic)
 

@@ -31,8 +31,8 @@ point& cloud::get_point(int i) {
 double cloud::k_dist_knn(const point& p, int k) const {
 	assert(k <= n);
 
-	double neighbors_dist[k];
-	return neighbors_dist[k-1];
+	point* neighbors = knn(p, k);
+	return p.dist(neighbors[k-1]);
 }
 
 // TODO 2.2.2 if you wish to implement the Optional Exercise 3: return k nearest neighbors
@@ -40,6 +40,13 @@ point* cloud::knn(const point& p, int k) const {
 	assert(k <= n);
 
 	point *neighbors = new point[k];
+	std::pair<double, point*> sorted_neighbors[n];
+
+	for(int i =0; i < n; i++) sorted_neighbors[i] = {points[i].dist(p), &points[i]};
+	std::sort(sorted_neighbors, sorted_neighbors + n);
+
+	for(int i = 0; i < k; i++) neighbors[i] = *sorted_neighbors[i].second;
+	
 	return neighbors;
 }
 
@@ -47,6 +54,19 @@ point* cloud::knn(const point& p, int k) const {
 point* cloud::shift(int k)
 {
 	point* Q = new point[n];
+	point* neighbors;
+	int dimension = point::get_dim();
+	double new_coords[dimension];
+
+	for(int i = 0; i < n; i ++){
+		neighbors = knn(get_point(i), k);
+		for(int j = 0; j < dimension; j++) new_coords[j] = 0;
+		for(int a = 0; a < dimension; a++){
+			for(int j = 0; j < k; j++) new_coords[a] += neighbors[j].coords[a];
+			new_coords[a] /= k;
+		}
+		for(int a = 0; a < dimension; a++) Q[i].coords[a] = new_coords[a];
+	}
 
 	return Q;
 }
