@@ -1,12 +1,12 @@
-# X_INF442
+# 📚 INF442 - Algorithms for Data Analysis in C++ (École Polytechnique)
 
-## About the course
+## 📊 About the course
 
 Repository dedicated to my solutions to the practical sessions of the INF442 - Algorithms for Data Analysis in C++ course of École Polytechnique from professor Steve Oudot (steve.oudot@polytechnique.edu). 
 
 The goal pursued by this course is twofold: first, to get acquainted with some of the standard techniques in data analysis and machine learning; second, to acquire some expertise in C/C++ programming, so that students can then adapt existing low-level implementations to their needs.
 
-## Content description
+## 📝 Content description
 
 Each class is indicated by "td" and its number. Here is a short description of each of them.
 
