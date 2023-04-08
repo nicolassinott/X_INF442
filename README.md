@@ -15,3 +15,7 @@ Each class is indicated by "td" and its number. Here is a short description of e
 - TD 2 (kNN and K-Dimensional Tree (kd-tree)) - Study of the famous Iris data set using kNN technique. Implementation in C++ for finding the nearest neighbor of a query point in a database using various searching strategies. 
 
 - TD 3 (k-Means) - Implementation in C++ of the k-means algorithm using Voronoi partition, trying two different initializations such as random-partition, Forgy and k-means++ initializations. 
+
+- TD 4 (Agglomerative hierarchical clustering) - Study of several datasets in python using scikit-learn to perform hierarchical clustering (dendrogram and linkage). Implementation of a single-linkage hierarchical clustering algorithm using union-find data structure in C++.
+
+- TD 5 (Density Estimation) - Study of MNIST and other datasets using kernel density estimators using scikit-learn (gaussian and tophat). Implementation of three different kernel density estimators, also removing noise from the dataset by implementing the mean shift algorithm on the k-nearest neighbor kernel in C++.
