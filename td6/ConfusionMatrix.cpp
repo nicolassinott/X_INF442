@@ -6,6 +6,10 @@ using namespace std;
 ConfusionMatrix::ConfusionMatrix() {
     // TODO Exercise 3
     // Populate 2x2 matrix with 0s
+
+    for(int i = 0; i < 2; i++)
+        for(int j = 0; j < 2; j++)
+            m_confusion_matrix[i][j] = 0;
 }
 
 ConfusionMatrix::~ConfusionMatrix() {
@@ -14,6 +18,7 @@ ConfusionMatrix::~ConfusionMatrix() {
 
 void ConfusionMatrix::AddPrediction(int true_label, int predicted_label) {
     // TODO Exercise 3
+    m_confusion_matrix[true_label][predicted_label]++;
 }
 
 void ConfusionMatrix::PrintEvaluation() const{
@@ -57,20 +62,25 @@ int ConfusionMatrix::GetFN() const {
 
 double ConfusionMatrix::f_score() const {
     // TODO Exercise 3
+    return (2*precision() * detection_rate()) / (precision() + detection_rate());
 }
 
 double ConfusionMatrix::precision() const {
     // TODO Exercise 3
+    return (double) GetTP() / ((double) (GetTP() + GetFP()));
 }
 
 double ConfusionMatrix::error_rate() const {
     // TODO Exercise 3
+    return ((double) GetFP() + GetFN()) / ((double) (GetTP() + GetFP() + GetFN() + GetTN()));
 }
 
 double ConfusionMatrix::detection_rate() const {
     // TODO Exercise 3
+    return ((double) GetTP()) / ((double) (GetTP() + GetFN()));
 }
 
 double ConfusionMatrix::false_alarm_rate() const {
     // TODO Exercise 3
+    return ((double) GetFP()) / ((double) (GetFP() + GetTN()));
 }
