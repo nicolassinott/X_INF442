@@ -57,27 +57,38 @@ double Kernel::dot(const std::vector<double> &x1, const std::vector<double> &x2)
 
 double Kernel::kernel_linear(const std::vector<double> &x1, const std::vector<double> &x2) const {
 	// Exercise 1
-	return 0;
+	double res = 0;
+	for(int  i = 0; i < x1.size(); i++) res += x1[i] * x2[i];
+	return res;
 };
 
 double Kernel::kernel_poly(const std::vector<double> &x1, const std::vector<double> &x2) const {
 	// Exercise 1
-	return 0;
+	double res = kernel_linear(x1,x2) * gamma + coef0;
+	return pow(res, degree);
 };
 
 double Kernel::kernel_rbf(const std::vector<double> &x1, const std::vector<double> &x2) const {
 	// Exercise 1
-	return 0;
+	double res = 0;
+	for(int i = 0; i < x1.size(); i++) res += (x1[i] - x2[i]) * (x1[i] - x2[i]);
+	res *= -gamma;
+
+	return exp(res);
 };
 
 double Kernel::kernel_sigmoid(const std::vector<double> &x1, const std::vector<double> &x2) const {
 	// Exercise 1
-	return 0;
+	double res = kernel_linear(x1,x2) * gamma + coef0;
+	return tanh(res);
 };
 
 double Kernel::kernel_ratquad(const std::vector<double> &x1, const std::vector<double> &x2) const {
 	// Exercise 1
-	return 0;
+	double res = 0;
+	for(int i = 0; i < x1.size(); i++) res += (x1[i] - x2[i]) * (x1[i] - x2[i]);
+
+	return coef0 / (coef0 + res);
 };
 
 int Kernel::get_kernel_type() const {
