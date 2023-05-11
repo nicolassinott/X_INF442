@@ -182,7 +182,13 @@ void Neuron::step()
     // Collecting signals from dendrites
     // Bias is stored in dendrites[0] and weights[0]
 
+    collected_input = 0;
+    for(int i = 0; i < nb_dendrites+1; i++) collected_input += dendrites[i]->getSignal()*weights[i];
+    collected_input = collected_input;
+
     // Compute and set the axon signal
+
+    axon->setSignal(activation(collected_input));
 }
 
 // Backward propagation (training)
@@ -195,6 +201,14 @@ void Neuron::step_back()
         // Propagate the error storing it in the dendrite's back value
 
         // Update the associated weight
+
+    double error = axon->getBackValue() * activation_der(collected_input);
+
+    for(int i = 0; i < nb_dendrites+1; i++){
+        double back_val = weights[i] * error;
+        dendrites[i]->setBackValue(back_val);
+        weights[i] -= rate*error*dendrites[i]->getSignal();
+    }
 }
 
 int Neuron::count = 0;
