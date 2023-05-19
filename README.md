@@ -18,4 +18,12 @@ Each class is indicated by "td" and its number. Here is a short description of e
 
 - TD 4 (Agglomerative hierarchical clustering) - Study of several datasets in python using scikit-learn to perform hierarchical clustering (dendrogram and linkage). Implementation of a single-linkage hierarchical clustering algorithm using union-find data structure in C++.
 
-- TD 5 (Density Estimation) - Study of MNIST and other datasets using kernel density estimators using scikit-learn (gaussian and tophat). Implementation of three different kernel density estimators, also removing noise from the dataset by implementing the mean shift algorithm on the k-nearest neighbor kernel in C++.
+- TD 5 (Density Estimation) - Study of MNIST and other datasets using kernel density estimators using scikit-learn (gaussian and tophat). Implementation of three different kernel density estimators (flat, Gaussian, and k-nn), also removing noise from the dataset by implementing the mean shift algorithm on the k-nearest neighbor kernel in C++.
+
+- TD 6 (kNN for classification) - Implementation of the supervised learning algorithm k-nearest neighbors (k-NN) in C++ as well as some classific classification performance metrics (such as confusion matrix).
+
+- TD 7 (kNN for regression and Linear Regression) - Implementation of both k-NN regressor and linear regressor algorithms in C++, as well as performance comparison.
+
+- TD 8 (Support Vector Machines) - Implementation of Soft Margin Kernel SVMs by solving the dual problem via a projected gradient ascent in C++.
+
+- TD 9 (Regression with a One-Layer Perceptron) - Implementation of a 1-layer perceptron with one hidden layer in C++.
